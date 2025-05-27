@@ -1,50 +1,38 @@
-
-import { ArrowLeft, Calendar, Tag, Heart, Loader2 } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { ArrowLeft, Calendar, Tag, Heart } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useQuery } from '@tanstack/react-query';
-import { animalService } from '@/services/animalService';
+
+interface AnimalData {
+  id: string;
+  nombre: string;
+  especie: string;
+  raza: string;
+  edad: string;
+  descripcion: string;
+  imagen: string;
+}
 
 const AnimalDetail = () => {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
-
-  const { data: animal, isLoading, error } = useQuery({
-    queryKey: ['animal', id],
-    queryFn: () => animalService.getAnimalById(Number(id)),
-    enabled: !!id,
-  });
+  const location = useLocation();
+  
+  // En una aplicación real, estos datos vendrían de props, parámetros de URL, o una API
+  // Por ahora uso datos de ejemplo
+  const animalData: AnimalData = location.state?.animalData || {
+    id: "1",
+    nombre: "León Africano",
+    especie: "Panthera leo",
+    raza: "León Africano",
+    edad: "5 años",
+    descripcion: "El león africano es una subespecie de león que habita en África. Es el segundo felino más grande del mundo después del tigre. Los leones son animales sociales que viven en grupos llamados manadas. Son conocidos por su melena distintiva en los machos y su poderoso rugido que puede escucharse hasta 8 kilómetros de distancia.",
+    imagen: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=800&h=600&fit=crop"
+  };
 
   const handleGoBack = () => {
     navigate('/');
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 flex items-center justify-center">
-        <div className="flex items-center space-x-2">
-          <Loader2 className="h-8 w-8 animate-spin text-amber-600" />
-          <span className="text-xl text-gray-600">Cargando detalles del animal...</span>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !animal) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">Animal no encontrado</h2>
-          <p className="text-gray-600 mb-6">El animal que buscas no existe o no se pudo cargar.</p>
-          <Button onClick={handleGoBack} variant="outline">
-            Volver al inicio
-          </Button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
@@ -64,12 +52,9 @@ const AnimalDetail = () => {
           <div className="relative group">
             <div className="overflow-hidden rounded-2xl shadow-2xl bg-white p-4">
               <img
-                src={animal.imagenUrl}
-                alt={animal.nombre}
+                src={animalData.imagen}
+                alt={animalData.nombre}
                 className="w-full h-[500px] object-cover rounded-xl transition-transform duration-500 group-hover:scale-105"
-                onError={(e) => {
-                  e.currentTarget.src = "https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=800&h=600&fit=crop";
-                }}
               />
             </div>
             {/* Efecto de sombra decorativa */}
@@ -81,7 +66,7 @@ const AnimalDetail = () => {
             {/* Título */}
             <div className="text-center lg:text-left">
               <h1 className="text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
-                {animal.nombre}
+                {animalData.nombre}
               </h1>
               <div className="w-20 h-1 bg-gradient-to-r from-amber-400 to-orange-500 mx-auto lg:mx-0 rounded-full"></div>
             </div>
@@ -96,7 +81,7 @@ const AnimalDetail = () => {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Especie</p>
-                      <p className="text-xl font-semibold text-gray-800">{animal.especie}</p>
+                      <p className="text-xl font-semibold text-gray-800">{animalData.especie}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -110,7 +95,7 @@ const AnimalDetail = () => {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Raza</p>
-                      <p className="text-xl font-semibold text-gray-800">{animal.raza}</p>
+                      <p className="text-xl font-semibold text-gray-800">{animalData.raza}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -124,7 +109,7 @@ const AnimalDetail = () => {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Edad</p>
-                      <p className="text-xl font-semibold text-gray-800">{animal.edad} años</p>
+                      <p className="text-xl font-semibold text-gray-800">{animalData.edad}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -136,7 +121,7 @@ const AnimalDetail = () => {
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Descripción</h3>
                 <p className="text-gray-600 leading-relaxed text-lg">
-                  {animal.descripcion}
+                  {animalData.descripcion}
                 </p>
               </CardContent>
             </Card>
@@ -144,7 +129,7 @@ const AnimalDetail = () => {
             {/* Badge decorativo */}
             <div className="flex justify-center lg:justify-start">
               <Badge variant="secondary" className="bg-gradient-to-r from-amber-100 to-orange-100 text-amber-800 border-amber-200 px-4 py-2 text-sm">
-                🐾 ID: {animal.idAnimal}
+                🐾 Información verificada
               </Badge>
             </div>
           </div>
