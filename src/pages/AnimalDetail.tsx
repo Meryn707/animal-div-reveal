@@ -1,3 +1,4 @@
+
 import { ArrowLeft, Calendar, Tag, Heart } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -32,6 +33,17 @@ const AnimalDetail = () => {
 
   const handleGoBack = () => {
     navigate('/');
+  };
+
+  const handleAdopt = () => {
+    navigate('/adoption-form', { 
+      state: { 
+        animalData: {
+          idAnimal: animalData.id,
+          nombre: animalData.nombre
+        }
+      } 
+    });
   };
 
   return (
@@ -125,6 +137,15 @@ const AnimalDetail = () => {
                 </p>
               </CardContent>
             </Card>
+
+            {/* Botón de adopción */}
+            <Button
+              onClick={handleAdopt}
+              className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            >
+              <Heart className="mr-2 h-5 w-5" />
+              ¡Quiero Adoptar a {animalData.nombre}!
+            </Button>
 
             {/* Badge decorativo */}
             <div className="flex justify-center lg:justify-start">
