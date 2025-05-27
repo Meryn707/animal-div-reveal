@@ -1,8 +1,7 @@
-
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Paw } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -48,7 +47,7 @@ const Index = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center space-x-2 mb-4">
-            <Paw className="h-8 w-8 text-green-600" />
+            <Heart className="h-8 w-8 text-green-600" />
             <h1 className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
               Reino Animal
             </h1>

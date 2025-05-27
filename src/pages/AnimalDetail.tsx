@@ -1,5 +1,4 @@
-
-import { ArrowLeft, Calendar, Tag, Paw } from 'lucide-react';
+import { ArrowLeft, Calendar, Tag, Heart } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -78,7 +77,7 @@ const AnimalDetail = () => {
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-3">
                     <div className="p-2 bg-green-100 rounded-full">
-                      <Paw className="h-5 w-5 text-green-600" />
+                      <Heart className="h-5 w-5 text-green-600" />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Especie</p>
