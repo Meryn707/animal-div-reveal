@@ -1,7 +1,8 @@
+
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Heart } from 'lucide-react';
+import Navbar from '@/components/Navbar';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -41,19 +42,23 @@ const Index = () => {
     navigate('/animal-detail', { state: { animalData: animal } });
   };
 
+  const handleFilterChange = (filters: any) => {
+    console.log('Filters applied:', filters);
+    // Aquí implementarías la lógica de filtrado real
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-purple-50">
+      <Navbar onFilterChange={handleFilterChange} />
+      
       <div className="container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center space-x-2 mb-4">
-            <Heart className="h-8 w-8 text-green-600" />
-            <h1 className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-              Reino Animal
-            </h1>
-          </div>
+          <h1 className="text-4xl lg:text-6xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4">
+            Descubre Animales Increíbles
+          </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Descubre la fascinante diversidad del mundo animal. Haz clic en cualquier animal para conocer más detalles.
+            Explora la fascinante diversidad del mundo animal. Haz clic en cualquier animal para conocer más detalles.
           </p>
         </div>
 
